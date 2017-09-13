@@ -52,13 +52,3 @@ google-services.json
 freeline.py
 freeline/
 freeline_project_description.json
-.gitignore
-.idea/
-README.md
-app/
-build.gradle
-gradle.properties
-gradle/
-gradlew
-gradlew.bat
-settings.gradle
