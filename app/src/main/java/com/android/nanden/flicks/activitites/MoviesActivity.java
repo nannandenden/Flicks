@@ -1,12 +1,14 @@
-package com.android.nanden.flicks;
+package com.android.nanden.flicks.activitites;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ListView;
 
+import com.android.nanden.flicks.R;
 import com.android.nanden.flicks.adapters.MovieArrayAdapter;
 import com.android.nanden.flicks.models.Movie;
+import com.android.nanden.flicks.utils.Constants;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
@@ -37,12 +39,9 @@ public class MoviesActivity extends AppCompatActivity {
         lvItems.setAdapter(movieArrayAdapter);
 
 
-        String url = "https://api.themoviedb" +
-                ".org/3/movie/now_playing?api_key=a07e22bc18f5cb106bfe4cc1f83ad8ed";
-
         AsyncHttpClient client = new AsyncHttpClient();
 
-        client.get(url, new JsonHttpResponseHandler(){
+        client.get(Constants.URL, new JsonHttpResponseHandler(){
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 super.onSuccess(statusCode, headers, response);
