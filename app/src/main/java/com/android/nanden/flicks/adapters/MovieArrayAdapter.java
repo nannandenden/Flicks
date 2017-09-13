@@ -1,6 +1,7 @@
 package com.android.nanden.flicks.adapters;
 
 import android.content.Context;
+import android.content.res.Configuration;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -41,15 +42,25 @@ public class MovieArrayAdapter extends ArrayAdapter<Movie>{
 
         // populate the items
         ImageView ivPoster = convertView.findViewById(R.id.ivPoster);
-        // clear out image from convertView
-        ivPoster.setImageResource(0);
+        ImageView ivBackDrop = convertView.findViewById(R.id.ivBackDrop);
         TextView tvTitle = convertView.findViewById(R.id.tvTitle);
         TextView tvOverview = convertView.findViewById(R.id.tvOverview);
+
         tvTitle.setText(movie.getOriginalTitle());
         tvOverview.setText(movie.getOverview());
-        // movie.getPosterPath() : full url to load from
-        Picasso.with(getContext()).load(movie.getPosterPath()).into(ivPoster);
+
+        int orientation = getContext().getResources().getConfiguration().orientation;
+        if(orientation == Configuration.ORIENTATION_PORTRAIT) {
+            // clear out image from convertView. need to clear inside the orientation condition
+            // since different orientation will not see this imageView
+            ivPoster.setImageResource(0);
+            Picasso.with(getContext()).load(movie.getPosterPath()).into(ivPoster);
+        } else if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            ivBackDrop.setImageResource(0);
+            Picasso.with(getContext()).load(movie.getBackDropPath()).into(ivBackDrop);
+        }
 
         return convertView;
     }
+
 }
