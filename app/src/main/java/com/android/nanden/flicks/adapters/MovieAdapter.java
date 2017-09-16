@@ -67,7 +67,9 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
     private void configViewHolderPopular(ViewHolderPopular vhPopular, int position) {
         vhPopular.getIvFullBackDrop().setImageResource(0);
-        Picasso.with(context).load(movies.get(position).getBackDropPath()).into(vhPopular.getIvFullBackDrop());
+        Picasso.with(context).load(movies.get(position).getBackDropPath())
+                .placeholder(R.drawable.placeholder)
+                .into(vhPopular.getIvFullBackDrop());
         int orientation = context.getResources().getConfiguration().orientation;
         if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
             vhPopular.getTvTitle().setText(movies.get(position).getOriginalTitle());
@@ -77,7 +79,9 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
     private void configViewHolderSoso(ViewHolderSoso vhSoso, int position) {
         vhSoso.getIvPoster().setImageResource(0);
-        Picasso.with(context).load(movies.get(position).getPosterPath()).into(vhSoso.getIvPoster());
+        Picasso.with(context).load(movies.get(position).getPosterPath())
+                .placeholder(R.drawable.placeholder)
+                .into(vhSoso.getIvPoster());
         vhSoso.getTvTitle().setText(movies.get(position).getOriginalTitle());
         vhSoso.getTvOverView().setText(movies.get(position).getOverview());
     }
