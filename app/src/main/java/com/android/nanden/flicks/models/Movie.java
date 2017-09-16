@@ -13,12 +13,22 @@ public class Movie {
     String originalTitle;
     String overview;
     String backDropPath;
+    public StarCount starCount;
+
+    public enum StarCount {
+        POPULAR, SOSO
+    }
 
     public Movie(JSONObject jsonObject) throws JSONException {
         this.posterPath = jsonObject.getString("poster_path");
         this.originalTitle = jsonObject.getString("original_title");
         this.overview = jsonObject.getString("overview");
         this.backDropPath = jsonObject.getString("backdrop_path");
+        if (jsonObject.getInt("vote_average") > 4) {
+            this.starCount = StarCount.POPULAR;
+        } else {
+            this.starCount = StarCount.SOSO;
+        }
     }
     /**
      * Iterate through the JSON array and convert each of the JSON object to movie object
@@ -44,7 +54,7 @@ public class Movie {
     }
 
     public String getBackDropPath() {
-        return String.format("https://image.tmdb.org/t/p/w780/%s", backDropPath);
+        return String.format("https://image.tmdb.org/t/p/w1280/%s", backDropPath);
     }
 
     public String getOriginalTitle() {
@@ -54,7 +64,5 @@ public class Movie {
     public String getOverview() {
         return overview;
     }
-
-
 
 }
