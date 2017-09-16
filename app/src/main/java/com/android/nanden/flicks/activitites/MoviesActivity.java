@@ -1,12 +1,13 @@
 package com.android.nanden.flicks.activitites;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.widget.ListView;
 
 import com.android.nanden.flicks.R;
-import com.android.nanden.flicks.adapters.MovieArrayAdapter;
+import com.android.nanden.flicks.adapters.MovieAdapter;
 import com.android.nanden.flicks.models.Movie;
 import com.android.nanden.flicks.utils.Constants;
 import com.loopj.android.http.AsyncHttpClient;
@@ -23,8 +24,8 @@ import cz.msebera.android.httpclient.Header;
 public class MoviesActivity extends AppCompatActivity {
 
     ArrayList<Movie> movies;
-    MovieArrayAdapter movieArrayAdapter;
-    ListView lvItems;
+    MovieAdapter movieAdapter;
+    RecyclerView recyclerView;
 
 
     @Override
@@ -32,12 +33,12 @@ public class MoviesActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie);
 
-        lvItems = (ListView) findViewById(R.id.lvMovies);
+        recyclerView = (RecyclerView) findViewById(R.id.rvMovies);
         movies = new ArrayList<>();
         // link movie ArrayList to movieArrayAdapter
-        movieArrayAdapter = new MovieArrayAdapter(this, movies);
-        lvItems.setAdapter(movieArrayAdapter);
-
+        movieAdapter = new MovieAdapter(this, movies);
+        recyclerView.setAdapter(movieAdapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         AsyncHttpClient client = new AsyncHttpClient();
 
@@ -54,7 +55,7 @@ public class MoviesActivity extends AppCompatActivity {
                     // movie objects into movie ArrayList this is a easy mistake to make
                     movies.addAll(Movie.fromJSONArray(movieJsonResult));
                     // do not forget to notify the adapter
-                    movieArrayAdapter.notifyDataSetChanged();
+                    movieAdapter.notifyDataSetChanged();
                     Log.d("Debug", movies.toString());
                     // convert json object to movies object so we can manipulate
                 } catch (JSONException e) {
