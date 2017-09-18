@@ -1,6 +1,7 @@
 package com.android.nanden.flicks.activitites;
 
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -22,10 +23,11 @@ import cz.msebera.android.httpclient.Header;
 
 public class MoviesActivity extends AppCompatActivity {
 
-    ArrayList<Movie> movies;
-    MovieAdapter movieAdapter;
-    RecyclerView recyclerView;
-    MovieClient client;
+    private ArrayList<Movie> movies;
+    private MovieAdapter movieAdapter;
+    private RecyclerView recyclerView;
+    private MovieClient client;
+    private SwipeRefreshLayout swipeContainer;
 
 
     @Override
@@ -34,12 +36,19 @@ public class MoviesActivity extends AppCompatActivity {
         setContentView(R.layout.activity_movie);
 
         recyclerView = (RecyclerView) findViewById(R.id.rvMovies);
+        swipeContainer = (SwipeRefreshLayout) findViewById(R.id.swipeContainer);
         movies = new ArrayList<>();
         // link movie ArrayList to movieArrayAdapter
         movieAdapter = new MovieAdapter(this, movies);
         recyclerView.setAdapter(movieAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         fetchMovies();
+        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                fetchMovies();
+            }
+        });
     }
 
     private void fetchMovies() {
@@ -59,8 +68,9 @@ public class MoviesActivity extends AppCompatActivity {
                 } catch (JSONException e) {
                     Log.d("LOG_TAG", "ERROR: " + e.getMessage());
                 }
-
-
+                if (swipeContainer.isRefreshing()) {
+                    swipeContainer.setRefreshing(false);
+                }
             }
 
             @Override
