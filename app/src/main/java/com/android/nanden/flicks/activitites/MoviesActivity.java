@@ -19,24 +19,26 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import cz.msebera.android.httpclient.Header;
 
 public class MoviesActivity extends AppCompatActivity {
 
     private ArrayList<Movie> movies;
     private MovieAdapter movieAdapter;
-    private RecyclerView recyclerView;
     private MovieClient client;
-    private SwipeRefreshLayout swipeContainer;
+    // activity view lookup
+    @BindView(R.id.rvMovies) RecyclerView recyclerView;
+    @BindView(R.id.swipeContainer) SwipeRefreshLayout swipeContainer;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie);
+        ButterKnife.bind(this);
 
-        recyclerView = (RecyclerView) findViewById(R.id.rvMovies);
-        swipeContainer = (SwipeRefreshLayout) findViewById(R.id.swipeContainer);
         movies = new ArrayList<>();
         // link movie ArrayList to movieArrayAdapter
         movieAdapter = new MovieAdapter(this, movies);
