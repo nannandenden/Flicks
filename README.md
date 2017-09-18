@@ -33,6 +33,8 @@ The following **bonus** features are implemented:
 The following **additional** features are implemented:
 
 * [x] Used RecyclerView instead of ListView to display the movie
+* [x] Add SwipeRefreshLayout for getting the latest movies
+* [x] Created MovieClient class for next work call 
 
 ## Video Walkthrough
 
